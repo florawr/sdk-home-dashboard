@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notifications — Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --brand-10:#F9FDFF; --brand-20:#E8F7FF; --brand-30:#D5F2FF; --brand-70:#05B1FE; --brand-80:#0196D8; --brand-90:#0178AD;
+    --gray-30:#F4F4F4; --gray-40:#EAEAEA; --gray-60:#C9C9C9; --gray-80:#777777; --gray-90:#545454; --gray-100:#222121;
+    --orange-80:#DA8101; --red-80:#DE1322; --green-80:#50A11B;
+    --text-primary:#222121; --text-secondary:#0178AD; --text-alt:#777777; --link:#0196D8;
+    --bg-gray:#F4F4F4; --surface:#FFFFFF; --border:#C9C9C9; --border-light:#EAEAEA;
+    --radius-sm:4px; --radius-md:6px; --radius-lg:8px;
+    --shadow-menu:0px 2px 6px rgba(34,33,33,0.3);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:13px;line-height:20px;color:var(--text-primary);background:var(--bg-gray);}
+  svg{display:block;}
+  button{font-family:inherit;cursor:pointer;}
+  .ic{flex:none;color:var(--text-primary);}
+  .s12{width:12px;height:12px;} .s16{width:16px;height:16px;} .s20{width:20px;height:20px;}
+
+  /* --- top nav strip (minimal, just to host the bell) --- */
+  .topnav{height:64px;background:var(--surface);border-bottom:1px solid var(--gray-40);display:flex;align-items:center;justify-content:flex-end;padding:0 24px;gap:16px;position:relative;z-index:50;}
+  .tn-iconbtn{display:inline-flex;align-items:center;justify-content:center;background:none;border:none;padding:6px;border-radius:var(--radius-sm);color:var(--gray-90);}
+  .tn-iconbtn:hover{background:var(--gray-30);}
+  .avatar{width:20px;height:20px;border-radius:50%;background:var(--brand-80);color:#fff;font-size:12px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;}
+
+  /* --- bell + unread dot --- */
+  .bell-wrap{position:relative;display:inline-flex;}
+  .notif-dot{position:absolute;top:3px;right:3px;width:8px;height:8px;border-radius:50%;background:var(--red-80);border:2px solid var(--surface);}
+  .notif-dot[hidden]{display:none;}
+
+  /* --- popover --- */
+  .notif-menu{position:absolute;top:100%;right:24px;width:360px;background:var(--surface);border-radius:var(--radius-md);box-shadow:var(--shadow-menu);z-index:60;overflow:hidden;}
+  .notif-menu[hidden]{display:none;}
+  .notif-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--gray-40);}
+  .notif-head .title{font-size:13px;font-weight:600;color:var(--text-primary);}
+  .notif-markall{background:none;border:none;font-size:13px;color:var(--link);padding:0;}
+  .notif-markall:hover{text-decoration:underline;}
+  .notif-markall[hidden]{display:none;}
+
+  .notif-item{display:flex;gap:12px;padding:14px 16px;border-top:1px solid var(--gray-40);position:relative;background:var(--surface);}
+  .notif-item:first-of-type{border-top:none;}
+  .notif-item.is-unread{background:var(--surface);}
+  .notif-ic{width:28px;height:28px;flex:none;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;}
+  .notif-ic.warn{background:#FFF6EA;color:var(--orange-80);}
+  .notif-ic.opp{background:var(--brand-20);color:var(--brand-80);}
+  .notif-body{flex:1;min-width:0;}
+  .notif-title{font-size:13px;font-weight:600;line-height:18px;color:var(--text-primary);padding-right:14px;}
+  .notif-support{font-size:13px;line-height:18px;color:var(--text-alt);margin-top:2px;}
+  .notif-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;}
+  .notif-cta{display:inline-flex;align-items:center;gap:5px;background:none;border:none;padding:0;font-size:13px;font-weight:600;color:var(--link);}
+  .notif-cta .ic{color:var(--link);}
+  .notif-cta:hover{text-decoration:underline;}
+  .notif-time{font-size:11px;line-height:16px;color:var(--text-alt);}
+  .row-dot{position:absolute;top:16px;right:16px;width:8px;height:8px;border-radius:50%;background:var(--brand-80);}
+  .notif-item:not(.is-unread) .row-dot{display:none;}
+
+  /* preview scaffolding (not part of the component) */
+  .stage{max-width:760px;margin:0 auto;padding:40px 24px 80px;}
+  .stage h1{font-size:20px;font-weight:600;margin:0 0 6px;}
+  .stage p{font-size:13px;color:var(--text-alt);margin:0 0 24px;}
+  .hint{font-size:12px;color:var(--gray-80);background:var(--surface);border:1px solid var(--border-light);border-radius:var(--radius-lg);padding:12px 14px;}
+  .hint b{color:var(--gray-100);}
+  .hint code{background:var(--gray-30);border-radius:4px;padding:1px 5px;font-size:11px;}
+  .toolbar{display:flex;gap:8px;margin-bottom:24px;}
+  .btn-ghost{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:7px 12px;font-size:12px;color:var(--text-primary);}
+  .btn-ghost:hover{background:var(--gray-30);}
+  .lbl{font-size:11px;color:var(--gray-80);margin-bottom:6px;}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-alert" viewBox="0 0 16 16"><path d="M14.3535 9.6465L13 8.29295V6.5C12.9984 5.26098 12.5374 4.06655 11.7062 3.1477C10.875 2.22884 9.73266 1.65082 8.5 1.5254V0.5H7.5V1.5254C6.26734 1.65082 5.12496 2.22884 4.29377 3.1477C3.46257 4.06655 3.0016 5.26098 3 6.5V8.29295L1.64645 9.6465C1.55269 9.74025 1.50002 9.86741 1.5 10V11.5C1.5 11.6326 1.55268 11.7598 1.64645 11.8536C1.74021 11.9473 1.86739 12 2 12H5.5V12.3884C5.48916 13.0227 5.71276 13.6387 6.12794 14.1183C6.54313 14.598 7.1207 14.9076 7.75 14.9878C8.09757 15.0222 8.44852 14.9836 8.78026 14.8743C9.112 14.765 9.4172 14.5875 9.67622 14.3532C9.93524 14.1189 10.1423 13.8329 10.2842 13.5138C10.4261 13.1946 10.4996 12.8493 10.5 12.5V12H14C14.1326 12 14.2598 11.9473 14.3536 11.8536C14.4473 11.7598 14.5 11.6326 14.5 11.5V10C14.5 9.86741 14.4473 9.74025 14.3535 9.6465ZM9.5 12.5C9.5 12.8978 9.34196 13.2794 9.06066 13.5607C8.77936 13.842 8.39782 14 8 14C7.60218 14 7.22064 13.842 6.93934 13.5607C6.65804 13.2794 6.5 12.8978 6.5 12.5V12H9.5V12.5ZM13.5 11H2.5V10.2071L3.8535 8.8535C3.94727 8.75975 3.99997 8.6326 4 8.5V6.5C4 5.43913 4.42143 4.42172 5.17157 3.67157C5.92172 2.92143 6.93913 2.5 8 2.5C9.06087 2.5 10.0783 2.92143 10.8284 3.67157C11.5786 4.42172 12 5.43913 12 6.5V8.5C12 8.6326 12.0527 8.75975 12.1465 8.8535L13.5 10.2071V11Z" fill="currentColor"/></symbol>
+  <symbol id="i-warning-1" viewBox="0 0 16 16"><path d="M8 1C6.61553 1 5.26216 1.41054 4.11101 2.17971C2.95987 2.94888 2.06266 4.04213 1.53285 5.32122C1.00303 6.6003 0.86441 8.00776 1.13451 9.36563C1.4046 10.7235 2.07129 11.9708 3.05026 12.9497C4.02922 13.9287 5.2765 14.5954 6.63437 14.8655C7.99224 15.1356 9.3997 14.997 10.6788 14.4672C11.9579 13.9373 13.0511 13.0401 13.8203 11.889C14.5895 10.7378 15 9.38447 15 8C15 6.14348 14.2625 4.36301 12.9497 3.05025C11.637 1.7375 9.85652 1 8 1ZM8 14C6.81332 14 5.65328 13.6481 4.66658 12.9888C3.67989 12.3295 2.91085 11.3925 2.45673 10.2961C2.0026 9.19974 1.88378 7.99334 2.11529 6.82946C2.3468 5.66557 2.91825 4.59647 3.75736 3.75736C4.59648 2.91824 5.66558 2.3468 6.82946 2.11529C7.99335 1.88378 9.19975 2.0026 10.2961 2.45672C11.3925 2.91085 12.3295 3.67988 12.9888 4.66658C13.6481 5.65327 14 6.81331 14 8C14 9.5913 13.3679 11.1174 12.2426 12.2426C11.1174 13.3679 9.5913 14 8 14Z" fill="currentColor"/><path d="M8.5 4H7.5V9.5H8.5V4Z" fill="currentColor"/><path d="M8 11C7.85167 11 7.70666 11.044 7.58333 11.1264C7.45999 11.2088 7.36386 11.3259 7.30709 11.463C7.25033 11.6 7.23548 11.7508 7.26441 11.8963C7.29335 12.0418 7.36478 12.1754 7.46967 12.2803C7.57456 12.3852 7.7082 12.4566 7.85369 12.4856C7.99917 12.5145 8.14997 12.4997 8.28701 12.4429C8.42406 12.3861 8.54119 12.29 8.6236 12.1667C8.70602 12.0433 8.75 11.8983 8.75 11.75C8.75 11.5511 8.67098 11.3603 8.53033 11.2197C8.38968 11.079 8.19892 11 8 11Z" fill="currentColor"/></symbol>
+  <symbol id="i-yield" viewBox="0 0 16 16"><path d="M15 4.5H11.5V5.5H13.295L9.5 9.295L7.355 7.145C7.30852 7.09814 7.25322 7.06094 7.19229 7.03555C7.13136 7.01017 7.06601 6.9971 7 6.9971C6.93399 6.9971 6.86864 7.01017 6.80771 7.03555C6.74678 7.06094 6.69148 7.09814 6.645 7.145L3 10.795L3.705 11.5L7 8.205L9.145 10.355C9.19148 10.4019 9.24678 10.4391 9.30771 10.4644C9.36864 10.4898 9.43399 10.5029 9.5 10.5029C9.56601 10.5029 9.63136 10.4898 9.69229 10.4644C9.75322 10.4391 9.80852 10.4019 9.855 10.355L14 6.205V8H15V4.5Z" fill="currentColor"/><mask id="mask0_6426_7p" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="3" y="3" width="4" height="4"><path d="M6.90681 4.88578C5.72801 4.61538 5.38323 4.27506 5.11299 3.09091C5.08503 2.9697 4.91264 2.9697 4.88468 3.09091C4.61444 4.2704 4.27432 4.61538 3.09086 4.88578C2.96971 4.91375 2.96971 5.08625 3.09086 5.11422C4.26966 5.38462 4.61444 5.72494 4.88468 6.90909C4.91264 7.0303 5.08503 7.0303 5.11299 6.90909C5.38323 5.7296 5.72336 5.38462 6.90681 5.11422C6.96739 5.10023 7 5.04895 7 4.99767C7 4.94639 6.96739 4.8951 6.90681 4.88112" fill="white"/></mask><g mask="url(#mask0_6426_7p)"><path d="M7.66046 7.70711V2.29297L2.29296 2.29297V7.70711H7.66046Z" fill="currentColor"/></g></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 16 16"><path d="M9 3L8.285 3.6965L12.075 7.5H2V8.5H12.075L8.285 12.2865L9 13L14 8L9 3Z" fill="currentColor"/></symbol>
+</svg>
+
+<!-- ===== TOP NAV STRIP (isolated host for the bell) ===== -->
+<header class="topnav">
+  <div class="bell-wrap">
+    <button class="tn-iconbtn" id="notifTrigger" aria-label="Notifications" aria-haspopup="true" aria-expanded="false">
+      <svg class="ic s16" style="color:var(--gray-90)"><use href="#i-alert"/></svg>
+    </button>
+    <span class="notif-dot" id="bellDot"></span>
+
+    <!-- ===== NOTIFICATIONS POPOVER ===== -->
+    <div class="notif-menu" id="notifMenu" hidden role="dialog" aria-label="Notifications">
+      <div class="notif-head">
+        <span class="title">Notifications</span>
+        <button class="notif-markall" id="markAll">Mark all as read</button>
+      </div>
+      <div id="notifList">
+        <div class="notif-item is-unread" data-id="sdk-outdated">
+          <span class="notif-ic warn"><svg class="ic s16"><use href="#i-warning-1"/></svg></span>
+          <div class="notif-body">
+            <div class="notif-title">4 apps are using outdated SDK versions</div>
+            <div class="notif-support">Updating may improve performance and compatibility.</div>
+            <div class="notif-foot">
+              <button class="notif-cta" data-cta="review">Review versions <svg class="ic s12"><use href="#i-arrow-right"/></svg></button>
+              <span class="notif-time">2h ago</span>
+            </div>
+          </div>
+          <span class="row-dot"></span>
+        </div>
+        <div class="notif-item is-unread" data-id="app-unmonetized">
+          <span class="notif-ic opp"><svg class="ic s16"><use href="#i-yield"/></svg></span>
+          <div class="notif-body">
+            <div class="notif-title">A new app is not monetized</div>
+            <div class="notif-support">This app may represent a potential revenue opportunity.</div>
+            <div class="notif-foot">
+              <button class="notif-cta" data-cta="viewapp">View app <svg class="ic s12"><use href="#i-arrow-right"/></svg></button>
+              <span class="notif-time">1d ago</span>
+            </div>
+          </div>
+          <span class="row-dot"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <span class="avatar">J</span>
+</header>
+
+<!-- ===== preview scaffolding (explanatory only; not part of the component) ===== -->
+<div class="stage">
+  <div class="lbl">PREVIEW — isolated component</div>
+  <h1>Notifications popover</h1>
+  <p>Standalone preview of the bell entry point and popover, before integrating into Home &amp; Dashboard.</p>
+  <div class="toolbar">
+    <button class="btn-ghost" id="resetBtn">Reset to unread</button>
+  </div>
+  <div class="hint">
+    <b>Try it:</b> click the <b>bell</b> (top-right) to open the popover · click a <b>CTA</b> or a row to mark it read (its tint &amp; dot clear) · <b>Mark all as read</b> clears the bell dot · click outside or press <code>Esc</code> to close. State persists via <code>localStorage</code>. In the real app the CTAs route to Version&nbsp;Health / the app; here they just mark-as-read.
+  </div>
+</div>
+
+<script>
+  (function(){
+    var IDS=['sdk-outdated','app-unmonetized'];
+    var KEY='owsdk_notif_read';
+    var trigger=document.getElementById('notifTrigger'), menu=document.getElementById('notifMenu'),
+        bellDot=document.getElementById('bellDot'), markAll=document.getElementById('markAll'),
+        list=document.getElementById('notifList');
+
+    function getRead(){ try{ return JSON.parse(localStorage.getItem(KEY)||'[]'); }catch(e){ return []; } }
+    function setRead(a){ try{ localStorage.setItem(KEY, JSON.stringify(a)); }catch(e){} }
+    function render(){
+      var read=getRead(), unread=0;
+      IDS.forEach(function(id){
+        var row=list.querySelector('[data-id="'+id+'"]'); if(!row) return;
+        var isRead=read.indexOf(id)>-1;
+        row.classList.toggle('is-unread', !isRead);
+        if(!isRead) unread++;
+      });
+      bellDot.hidden = unread===0;
+      markAll.hidden = unread===0;
+    }
+    function markReadId(id){ var r=getRead(); if(r.indexOf(id)<0){ r.push(id); setRead(r); } render(); }
+
+    // open/close (same pattern as the app's top-nav menus)
+    trigger.addEventListener('click', function(e){ e.stopPropagation();
+      var willOpen=menu.hidden; menu.hidden=!willOpen; trigger.setAttribute('aria-expanded', String(willOpen));
+    });
+    menu.addEventListener('click', function(e){ e.stopPropagation(); });
+    document.addEventListener('click', function(){ menu.hidden=true; trigger.setAttribute('aria-expanded','false'); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ menu.hidden=true; trigger.setAttribute('aria-expanded','false'); } });
+
+    // interactions: CTA or row click marks that item read (in the real app it also routes)
+    list.querySelectorAll('.notif-item').forEach(function(row){
+      row.addEventListener('click', function(){ markReadId(row.getAttribute('data-id')); });
+    });
+    markAll.addEventListener('click', function(e){ e.stopPropagation(); setRead(IDS.slice()); render(); });
+    document.getElementById('resetBtn').addEventListener('click', function(){ setRead([]); render(); });
+
+    render();
+  })();
+</script>
+</body>
+</html>

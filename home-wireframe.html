@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home — Low-fi Wireframe</title>
+<style>
+  :root{
+    --ink:#3a3f45; --ink-strong:#1f2328; --muted:#8b9099; --faint:#b6bbc2;
+    --line:#d7dbe0; --line-soft:#e6e9ed; --fill:#eef0f3; --fill-2:#f6f7f9;
+    --page:#f1f2f4; --card:#ffffff; --hero:#e9ebee;
+    --r:10px; --r-sm:7px;
+    --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:var(--font);background:var(--page);color:var(--ink);}
+  .wf{display:flex;min-height:100vh;}
+
+  /* placeholder skeleton bars */
+  .bar{height:8px;border-radius:4px;background:var(--fill);display:block;}
+  .bar.d{background:#e2e5e9;}
+  .bar.dd{background:#d5d9de;}
+  .stack>*+*{margin-top:7px;}
+
+  /* ---------- left nav (placeholder) ---------- */
+  .nav{width:200px;flex:none;background:#fafbfc;border-right:1px solid var(--line);padding:14px 12px;}
+  .nav .logo{display:flex;align-items:center;gap:9px;padding:4px 6px 14px;}
+  .nav .logo .dot{width:20px;height:20px;border-radius:50%;background:#d5d9de;}
+  .nav .logo .bar{width:78px;height:10px;}
+  .nav .search{height:30px;border:1px solid var(--line);border-radius:var(--r-sm);background:#fff;margin-bottom:12px;}
+  .nav .item{display:flex;align-items:center;gap:10px;padding:8px 8px;border-radius:var(--r-sm);}
+  .nav .item .ic{width:15px;height:15px;border-radius:4px;background:#dfe3e7;flex:none;}
+  .nav .item .lb{height:8px;border-radius:4px;background:#e2e5e9;}
+  .nav .item.active{background:#e9edf1;}
+  .nav .item.active .ic{background:#c3c9d0;}
+  .nav .item.active .lb{background:#c3c9d0;}
+  .nav .sec{font-size:9px;letter-spacing:.09em;color:var(--faint);text-transform:uppercase;padding:14px 8px 6px;}
+
+  /* ---------- top bar (placeholder) ---------- */
+  .top{height:52px;border-bottom:1px solid var(--line);background:#fafbfc;display:flex;align-items:center;gap:14px;padding:0 20px;}
+  .top .pill{height:26px;border:1px solid var(--line);border-radius:999px;background:#fff;display:flex;align-items:center;padding:0 12px;gap:8px;}
+  .top .pill .lb{width:74px;height:8px;border-radius:4px;background:#e2e5e9;}
+  .top .pill.pub .lb{width:120px;}
+  .top .spacer{flex:1;}
+  .top .circle{width:26px;height:26px;border-radius:50%;background:#dfe3e7;}
+
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .scroll{flex:1;overflow:auto;}
+  .wrap{max-width:1180px;margin:0 auto;padding:26px 28px 60px;}
+
+  /* section label + annotation */
+  .anno{font-size:10.5px;color:var(--faint);letter-spacing:.02em;margin:0 0 8px;}
+  .anno b{color:var(--muted);font-weight:600;}
+  .seclabel{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:0 0 12px;}
+  .seclabel .ic{width:15px;height:15px;border-radius:4px;background:#d5d9de;}
+
+  /* greeting */
+  .greet{margin-bottom:26px;}
+  .greet h1{margin:0 0 8px;font-size:26px;color:var(--ink-strong);font-weight:700;}
+  .greet .sub{width:340px;max-width:70%;height:11px;border-radius:5px;background:#dcdfe4;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);}
+  .block{margin-bottom:26px;}
+
+  /* NEEDS ATTENTION hero */
+  .attn-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .attn{background:var(--card);border:1px solid var(--line);border-left:3px solid #c3c9d0;border-radius:var(--r);padding:16px 16px 14px;min-height:132px;display:flex;flex-direction:column;}
+  .attn .row1{display:flex;align-items:center;gap:9px;margin-bottom:12px;}
+  .attn .sig{width:11px;height:11px;border-radius:50%;background:#c3c9d0;flex:none;}
+  .attn .tag{height:9px;width:56px;border-radius:4px;background:#e2e5e9;}
+  .attn .h{height:12px;border-radius:5px;background:#cfd3d8;width:82%;margin-bottom:8px;}
+  .attn .l1{height:8px;border-radius:4px;background:#e6e9ed;width:100%;}
+  .attn .l2{height:8px;border-radius:4px;background:#e6e9ed;width:70%;margin-top:6px;}
+  .attn .cta{margin-top:auto;height:30px;border:1px solid var(--line);border-radius:var(--r-sm);width:120px;background:var(--fill-2);display:flex;align-items:center;justify-content:center;}
+  .attn .cta .lb{width:66px;height:8px;border-radius:4px;background:#c3c9d0;}
+
+  /* PERFORMANCE SNAPSHOT — Cloudflare style KPI mini-cards + sparkline */
+  .snap{padding:0;overflow:hidden;}
+  .snap .hd{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--line-soft);}
+  .snap .hd .t{display:flex;align-items:center;gap:8px;}
+  .snap .hd .t .ic{width:15px;height:15px;border-radius:4px;background:#d5d9de;}
+  .snap .hd .t .lb{width:150px;height:9px;border-radius:4px;background:#dcdfe4;}
+  .snap .hd .cta{display:flex;align-items:center;gap:6px;}
+  .snap .hd .cta .lb{width:96px;height:9px;border-radius:4px;background:#c6ccd2;}
+  .snap .hd .cta .ar{width:10px;height:9px;border-radius:2px;background:#c6ccd2;}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);}
+  .kpi{padding:16px 16px 12px;border-right:1px solid var(--line-soft);position:relative;overflow:hidden;min-height:104px;}
+  .kpi:last-child{border-right:none;}
+  .kpi .cap{height:8px;width:62%;border-radius:4px;background:#e2e5e9;margin-bottom:12px;}
+  .kpi .val{height:20px;width:78px;border-radius:5px;background:#cbd0d6;margin-bottom:6px;}
+  .kpi .trend{display:flex;align-items:center;gap:6px;}
+  .kpi .trend .ar{width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:7px solid #b7bcc3;}
+  .kpi .trend .ar.dn{border-bottom:none;border-top:7px solid #b7bcc3;}
+  .kpi .trend .lb{height:7px;width:40px;border-radius:4px;background:#e2e5e9;}
+  /* sparkline placeholder */
+  .spark{position:absolute;left:0;right:0;bottom:0;height:34px;background:
+     linear-gradient(180deg,rgba(197,203,210,0)0%,rgba(197,203,210,.28)100%);
+     -webkit-mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 34' preserveAspectRatio='none'><path d='M0 26 L14 20 L28 24 L42 12 L56 18 L70 8 L84 14 L100 6 L100 34 L0 34 Z' fill='black'/></svg>") no-repeat center/100% 100%;
+             mask:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 34' preserveAspectRatio='none'><path d='M0 26 L14 20 L28 24 L42 12 L56 18 L70 8 L84 14 L100 6 L100 34 L0 34 Z' fill='black'/></svg>") no-repeat center/100% 100%;}
+  .spark.dn{-webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 34' preserveAspectRatio='none'><path d='M0 8 L14 12 L28 10 L42 18 L56 16 L70 24 L84 22 L100 28 L100 34 L0 34 Z' fill='black'/></svg>");mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 34' preserveAspectRatio='none'><path d='M0 8 L14 12 L28 10 L42 18 L56 16 L70 24 L84 22 L100 28 L100 34 L0 34 Z' fill='black'/></svg>");}
+
+  /* two-col support: What's new / Recent activity */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .pane{padding:16px;}
+  .pane .hd{display:flex;align-items:center;gap:8px;margin-bottom:14px;}
+  .pane .hd .ic{width:15px;height:15px;border-radius:4px;background:#d5d9de;}
+  .pane .hd .lb{width:110px;height:9px;border-radius:4px;background:#dcdfe4;}
+  /* what's new body */
+  .whatsnew .kicker{height:8px;width:48px;border-radius:4px;background:#d5d9de;margin-bottom:10px;}
+  .whatsnew .h{height:13px;width:70%;border-radius:5px;background:#cfd3d8;margin-bottom:10px;}
+  .whatsnew .p{height:8px;border-radius:4px;background:#e6e9ed;}
+  .whatsnew .cta{margin-top:16px;height:30px;width:150px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--fill-2);display:flex;align-items:center;justify-content:center;}
+  .whatsnew .cta .lb{width:100px;height:8px;border-radius:4px;background:#c3c9d0;}
+  /* recent activity feed */
+  .feed .fr{display:flex;align-items:center;gap:11px;padding:9px 0;border-top:1px solid var(--line-soft);}
+  .feed .fr:first-of-type{border-top:none;}
+  .feed .fr .ic{width:22px;height:22px;border-radius:6px;background:#e6e9ed;flex:none;}
+  .feed .fr .c{flex:1;}
+  .feed .fr .c .a{height:8px;width:64%;border-radius:4px;background:#dcdfe4;margin-bottom:6px;}
+  .feed .fr .c .b{height:7px;width:36%;border-radius:4px;background:#eaedf0;}
+  .feed .fr .time{height:7px;width:44px;border-radius:4px;background:#eaedf0;flex:none;}
+
+  /* Getting started (conditional) */
+  .gs{padding:16px 18px;display:flex;align-items:center;gap:18px;background:var(--fill-2);border:1px solid var(--line);border-radius:var(--r);}
+  .gs .ic{width:34px;height:34px;border-radius:8px;background:#e0e3e7;flex:none;}
+  .gs .body{flex:1;}
+  .gs .body .t{height:11px;width:210px;border-radius:5px;background:#cfd3d8;margin-bottom:10px;}
+  .gs .prog{height:8px;border-radius:5px;background:#e2e5e9;overflow:hidden;max-width:420px;}
+  .gs .prog i{display:block;height:100%;width:45%;background:#bcc2c9;}
+  .gs .steps{display:flex;gap:7px;margin-top:11px;}
+  .gs .steps s{width:26px;height:6px;border-radius:3px;background:#d5d9de;}
+  .gs .steps s.done{background:#b0b6bd;}
+  .gs .cta{height:32px;width:128px;border-radius:var(--r-sm);background:#c3c9d0;flex:none;}
+
+  .condnote{font-size:10px;color:var(--faint);font-style:italic;margin:8px 2px 0;}
+
+  /* legend footer */
+  .legend{max-width:1180px;margin:0 auto;padding:0 28px 40px;color:var(--faint);font-size:11px;line-height:1.7;}
+  .legend b{color:var(--muted);}
+  .lofi-flag{display:inline-block;font-size:10px;letter-spacing:.08em;color:var(--faint);border:1px dashed var(--line);border-radius:5px;padding:3px 8px;margin-left:10px;vertical-align:middle;text-transform:uppercase;}
+</style>
+</head>
+<body>
+<div class="wf">
+
+  <!-- LEFT NAV (existing shell — placeholder) -->
+  <aside class="nav" aria-label="Primary navigation (placeholder)">
+    <div class="logo"><span class="dot"></span><span class="bar"></span></div>
+    <div class="search"></div>
+    <div class="item active"><span class="ic"></span><span class="lb" style="width:64px"></span></div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:52px"></span></div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:88px"></span></div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:60px"></span></div>
+    <div class="sec">Build</div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:70px"></span></div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:40px"></span></div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:96px"></span></div>
+    <div class="sec">Protect &amp; Connect</div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:104px"></span></div>
+    <div class="item"><span class="ic"></span><span class="lb" style="width:66px"></span></div>
+  </aside>
+
+  <div class="main">
+    <!-- TOP BAR (existing shell — placeholder) -->
+    <header class="top" aria-label="Top bar (placeholder)">
+      <div class="pill"><span class="lb"></span></div>
+      <div class="pill pub"><span class="lb"></span></div>
+      <div class="spacer"></div>
+      <div class="circle" title="notifications"></div>
+      <div class="circle" title="profile"></div>
+    </header>
+
+    <div class="scroll">
+      <div class="wrap">
+
+        <!-- 1 · GREETING -->
+        <div class="greet">
+          <p class="anno"><b>1 · Welcome / account context</b> — personalized greeting + one-line contextual message</p>
+          <h1>Good morning, Publisher</h1>
+          <div class="sub"></div>
+        </div>
+
+        <!-- 2 · NEEDS YOUR ATTENTION (hero) -->
+        <div class="block">
+          <p class="anno"><b>2 · Needs your attention</b> — most prominent · 2–4 actionable cards · issue + explanation + CTA</p>
+          <div class="seclabel"><span class="ic"></span> Needs your attention</div>
+          <div class="attn-grid">
+            <div class="attn">
+              <div class="row1"><span class="sig"></span><span class="tag"></span></div>
+              <div class="h"></div><div class="l1"></div><div class="l2"></div>
+              <div class="cta"><span class="lb"></span></div>
+            </div>
+            <div class="attn">
+              <div class="row1"><span class="sig"></span><span class="tag"></span></div>
+              <div class="h"></div><div class="l1"></div><div class="l2"></div>
+              <div class="cta"><span class="lb"></span></div>
+            </div>
+            <div class="attn">
+              <div class="row1"><span class="sig"></span><span class="tag"></span></div>
+              <div class="h"></div><div class="l1"></div><div class="l2"></div>
+              <div class="cta"><span class="lb"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 · PERFORMANCE SNAPSHOT (Cloudflare-style) -->
+        <div class="block">
+          <p class="anno"><b>3 · Performance snapshot</b> — Cloudflare-style KPI mini-cards w/ sparkline · no big charts · CTA → Dashboard</p>
+          <div class="card snap">
+            <div class="hd">
+              <div class="t"><span class="ic"></span><span class="lb"></span></div>
+              <div class="cta"><span class="lb"></span><span class="ar"></span></div>
+            </div>
+            <div class="kpis">
+              <div class="kpi"><div class="cap"></div><div class="val"></div>
+                <div class="trend"><span class="ar"></span><span class="lb"></span></div><span class="spark"></span></div>
+              <div class="kpi"><div class="cap"></div><div class="val"></div>
+                <div class="trend"><span class="ar"></span><span class="lb"></span></div><span class="spark"></span></div>
+              <div class="kpi"><div class="cap"></div><div class="val"></div>
+                <div class="trend"><span class="ar dn"></span><span class="lb"></span></div><span class="spark dn"></span></div>
+              <div class="kpi"><div class="cap"></div><div class="val"></div>
+                <div class="trend"><span class="ar"></span><span class="lb"></span></div><span class="spark"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4 · WHAT'S NEW  +  RECENT ACTIVITY -->
+        <div class="block">
+          <p class="anno"><b>4 · Ambient support</b> — What's new (single feature) · Recent activity (scannable feed)</p>
+          <div class="two">
+            <div class="card pane whatsnew">
+              <div class="hd"><span class="ic"></span><span class="lb"></span></div>
+              <div class="kicker"></div>
+              <div class="h"></div>
+              <div class="stack">
+                <span class="bar p" style="width:100%"></span>
+                <span class="bar p" style="width:92%"></span>
+                <span class="bar p" style="width:60%"></span>
+              </div>
+              <div class="cta"><span class="lb"></span></div>
+            </div>
+            <div class="card pane feed">
+              <div class="hd"><span class="ic"></span><span class="lb"></span></div>
+              <div class="fr"><span class="ic"></span><span class="c"><span class="a" style="width:70%;display:block"></span><span class="b" style="display:block"></span></span><span class="time"></span></div>
+              <div class="fr"><span class="ic"></span><span class="c"><span class="a" style="width:58%;display:block"></span><span class="b" style="width:30%;display:block"></span></span><span class="time"></span></div>
+              <div class="fr"><span class="ic"></span><span class="c"><span class="a" style="width:66%;display:block"></span><span class="b" style="width:40%;display:block"></span></span><span class="time"></span></div>
+              <div class="fr"><span class="ic"></span><span class="c"><span class="a" style="width:52%;display:block"></span><span class="b" style="width:34%;display:block"></span></span><span class="time"></span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 · GETTING STARTED (conditional) -->
+        <div class="block">
+          <p class="anno"><b>5 · Getting started</b> — new/incomplete publishers only · disappears cleanly when done (last in flow, no hole)</p>
+          <div class="gs">
+            <span class="ic"></span>
+            <div class="body">
+              <div class="t"></div>
+              <div class="prog"><i></i></div>
+              <div class="steps"><s class="done"></s><s class="done"></s><s></s><s></s><s></s></div>
+            </div>
+            <span class="cta"></span>
+          </div>
+          <p class="condnote">↑ Conditional. For established accounts this whole band is removed — because it sits last, the layout simply ends after Recent activity. No awkward gap.</p>
+        </div>
+
+      </div>
+
+      <div class="legend">
+        <b>Low-fi wireframe — structure only.</b> Gray blocks = text/data to be designed. Order top→bottom encodes priority:
+        greeting → <b>needs attention (hero)</b> → performance snapshot (Cloudflare KPI + sparkline) → what's new / recent activity → getting started (conditional).
+        Real copy, PubMatic blue accent, live sample data, icons and semantic red/amber/green come in the high-fi pass.
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
