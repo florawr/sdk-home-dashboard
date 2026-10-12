@@ -199,6 +199,31 @@
   .kpi-cap{font-size:10px;line-height:16px;color:var(--text-alt);}
   .spark{width:100%;height:40px;margin-top:2px;}
 
+  /* Performance Snapshot graph */
+  .ps-card{padding:20px 24px 24px;}
+  .ps-head{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:6px;}
+  .seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;background:var(--surface);}
+  .seg button{border:none;background:none;padding:8px 14px;font-size:13px;font-weight:500;color:var(--text-alt);}
+  .seg button.active{background:var(--brand-20);color:var(--text-secondary);}
+  .seg button+button{border-left:1px solid var(--border);}
+  .ps-summary{display:flex;align-items:center;gap:10px;}
+  .ps-value{font-size:24px;line-height:32px;color:var(--text-primary);}
+  .ps-summary .chg{font-size:12px;}
+  .ps-cap{font-size:11px;color:var(--text-alt);margin-bottom:16px;}
+  .ps-chartwrap{display:flex;gap:8px;height:240px;}
+  .ps-yaxis{display:flex;flex-direction:column;justify-content:space-between;align-items:flex-end;}
+  .ps-yaxis span{font-size:10px;color:var(--text-alt);line-height:1;}
+  .ps-plot{flex:1;min-width:0;height:100%;}
+  .ps-plot svg{width:100%;height:100%;}
+  .ps-xaxis{display:flex;justify-content:space-between;margin-top:6px;padding-left:40px;}
+  .ps-xaxis span{font-size:10px;color:var(--text-alt);}
+  .dv-legend{display:flex;justify-content:center;margin-top:16px;}
+  .dv-seg{display:inline-flex;align-items:center;gap:10px;padding:5px 12px;border-top:1px solid var(--gray-50);border-bottom:1px solid var(--gray-50);font-size:13px;color:var(--text-primary);background:var(--surface);}
+  .dv-seg.dv-first{border-left:1px solid var(--gray-50);border-radius:6px 0 0 6px;}
+  .dv-seg.dv-last{border-right:1px solid var(--gray-50);border-radius:0 6px 6px 0;}
+  .dv-swatch{width:12px;height:12px;border-radius:50%;flex:none;}
+  .dv-swatch-dash{width:16px;flex:none;border-top:2px dashed var(--gray-60);}
+
   /* WHAT'S NEW + RECENT ACTIVITY */
   .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
   .pane{padding:16px;}
@@ -305,6 +330,35 @@
   .vh-select{appearance:none;-webkit-appearance:none;font-family:inherit;font-size:13px;color:var(--text-primary);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);padding:8px 32px 8px 11px;cursor:pointer;background-repeat:no-repeat;background-position:right 10px center;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'><path d='M8 11L3 6l0.7-0.7L8 9.6l4.3-4.3L13 6z' fill='%23545454'/></svg>");}
   .vh-select:focus{outline:none;border-color:var(--brand-80);}
 </style>
+<!-- Maze universal snippet -->
+<script>
+(function (m, a, z, e) {
+  var s, t, u, v;
+  try {
+    t = m.sessionStorage.getItem('maze-us');
+  } catch (err) {}
+
+  if (!t) {
+    t = new Date().getTime();
+    try {
+      m.sessionStorage.setItem('maze-us', t);
+    } catch (err) {}
+  }
+
+  u = document.currentScript || (function () {
+    var w = document.getElementsByTagName('script');
+    return w[w.length - 1];
+  })();
+  v = u && u.nonce;
+
+  s = a.createElement('script');
+  s.src = z + '?apiKey=' + e;
+  s.async = true;
+  if (v) s.setAttribute('nonce', v);
+  a.getElementsByTagName('head')[0].appendChild(s);
+  m.mazeUniversalSnippetApiKey = e;
+})(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9abd2db5-4a2a-4b53-b220-8f7d677d7114');
+</script>
 </head>
 <body>
 
@@ -546,42 +600,21 @@
             <div class="sec-title"><svg class="ic s16"><use href="#i-performance"/></svg> Performance Snapshot</div>
             <a class="link-cta" href="dashboard.html">View Dashboard <svg class="ic s16"><use href="#i-arrow-right"/></svg></a>
           </div>
-          <div class="kpi-grid">
-            <div class="card kpi">
-              <div class="kpi-label">Revenue</div>
-              <div class="kpi-valrow"><span class="kpi-val">$48.2K</span><span class="chg chg-up"><svg class="ic s12"><use href="#i-trend-up"/></svg>+6.4%</span></div>
-              <div class="kpi-cap">vs. previous 24 hours</div>
-              <svg class="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
-                <path d="M0 30 L15 28 L30 31 L45 24 L60 26 L75 18 L90 20 L105 12 L120 9 L120 40 L0 40 Z" fill="#2581AE" fill-opacity="0.12"/>
-                <path d="M0 30 L15 28 L30 31 L45 24 L60 26 L75 18 L90 20 L105 12 L120 9" fill="none" stroke="#2581AE" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
-              </svg>
+          <div class="card ps-card">
+            <div class="ps-head">
+              <div class="seg" id="psMetricSeg">
+                <button class="active" data-metric="revenue">Net Revenue</button><button data-metric="impressions">Monetized Impressions</button><button data-metric="ecpm">eCPM</button>
+              </div>
+              <div class="ps-summary">
+                <span class="ps-value" id="psValue">$48.2K</span>
+                <span class="chg chg-up" id="psChg"></span>
+              </div>
             </div>
-            <div class="card kpi">
-              <div class="kpi-label">Monetized Impressions</div>
-              <div class="kpi-valrow"><span class="kpi-val">22.5M</span><span class="chg chg-up"><svg class="ic s12"><use href="#i-trend-up"/></svg>+3.1%</span></div>
-              <div class="kpi-cap">vs. previous 24 hours</div>
-              <svg class="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
-                <path d="M0 26 L15 24 L30 27 L45 22 L60 23 L75 19 L90 21 L105 16 L120 14 L120 40 L0 40 Z" fill="#2581AE" fill-opacity="0.12"/>
-                <path d="M0 26 L15 24 L30 27 L45 22 L60 23 L75 19 L90 21 L105 16 L120 14" fill="none" stroke="#2581AE" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
-              </svg>
-            </div>
-            <div class="card kpi">
-              <div class="kpi-label">Fill Rate</div>
-              <div class="kpi-valrow"><span class="kpi-val">68.4%</span><span class="chg chg-dn"><svg class="ic s12"><use href="#i-trend-down"/></svg>-4.2%</span></div>
-              <div class="kpi-cap">vs. previous 24 hours</div>
-              <svg class="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
-                <path d="M0 14 L15 16 L30 15 L45 20 L60 19 L75 24 L90 23 L105 28 L120 31 L120 40 L0 40 Z" fill="#2581AE" fill-opacity="0.12"/>
-                <path d="M0 14 L15 16 L30 15 L45 20 L60 19 L75 24 L90 23 L105 28 L120 31" fill="none" stroke="#2581AE" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
-              </svg>
-            </div>
-            <div class="card kpi">
-              <div class="kpi-label">eCPM</div>
-              <div class="kpi-valrow"><span class="kpi-val">$2.14</span><span class="chg chg-up"><svg class="ic s12"><use href="#i-trend-up"/></svg>+2.8%</span></div>
-              <div class="kpi-cap">vs. previous 24 hours</div>
-              <svg class="spark" viewBox="0 0 120 40" preserveAspectRatio="none">
-                <path d="M0 28 L15 27 L30 24 L45 25 L60 21 L75 22 L90 17 L105 18 L120 13 L120 40 L0 40 Z" fill="#2581AE" fill-opacity="0.12"/>
-                <path d="M0 28 L15 27 L30 24 L45 25 L60 21 L75 22 L90 17 L105 18 L120 13" fill="none" stroke="#2581AE" stroke-width="1.5" vector-effect="non-scaling-stroke"/>
-              </svg>
+            <div class="ps-cap">Last 7 days vs. previous 7 days</div>
+            <div class="ps-chart" id="psChart"></div>
+            <div class="dv-legend ps-legend">
+              <span class="dv-seg dv-first"><span class="dv-swatch" style="background:var(--brand-80)"></span>Last 7 days</span>
+              <span class="dv-seg dv-last"><span class="dv-swatch-dash"></span>Previous 7 days</span>
             </div>
           </div>
         </section>
@@ -831,6 +864,44 @@
       if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(msg).then(done, done); }
       else { done(); }
     }); }
+
+    /* ---- Performance Snapshot: toggleable graph (last 7 days vs previous 7) ---- */
+    var PS_X=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+    var PS={
+      revenue:{ max:9000, grid:[0,3000,6000,9000], yl:['$9k','$6k','$3k','$0'],
+        cur:[5800,6200,5900,6800,7100,7600,8800], prev:[5400,5600,5500,6100,6300,6700,7900],
+        value:'$48.2K', chg:6.4 },
+      impressions:{ max:4000000, grid:[0,1000000,2000000,3000000,4000000], yl:['4M','3M','2M','1M','0'],
+        cur:[2900000,3100000,3000000,3300000,3400000,3500000,3300000], prev:[2800000,2900000,2950000,3150000,3250000,3350000,3200000],
+        value:'22.5M', chg:3.1 },
+      ecpm:{ max:3, grid:[0,1,2,3], yl:['$3','$2','$1','$0'],
+        cur:[2.00,2.10,2.05,2.20,2.15,2.25,2.20], prev:[1.95,2.00,2.00,2.12,2.10,2.18,2.14],
+        value:'$2.14', chg:2.8 }
+    };
+    var psMetric='revenue';
+    function renderPS(){
+      var el=document.getElementById('psChart'); if(!el) return;
+      var cfg=PS[psMetric], W=1000,H=220,min=0,max=cfg.max,n=cfg.cur.length;
+      function y(v){ return H-((v-min)/(max-min))*H; }
+      function path(arr){ return arr.map(function(v,i){ var x=(i/(n-1))*W; return (i?'L':'M')+x.toFixed(1)+' '+y(v).toFixed(1); }).join(' '); }
+      var grid=cfg.grid.map(function(g){ return '<line x1="0" y1="'+y(g).toFixed(1)+'" x2="'+W+'" y2="'+y(g).toFixed(1)+'" stroke="#EAEAEA" stroke-width="1" vector-effect="non-scaling-stroke"/>'; }).join('');
+      var area='<path d="'+path(cfg.cur)+' L'+W+' '+H+' L0 '+H+' Z" fill="#0196D8" fill-opacity="0.08"/>';
+      var prev='<path d="'+path(cfg.prev)+'" fill="none" stroke="#C9C9C9" stroke-width="2" stroke-dasharray="5 4" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>';
+      var cur='<path d="'+path(cfg.cur)+'" fill="none" stroke="#0196D8" stroke-width="2.5" vector-effect="non-scaling-stroke" stroke-linejoin="round" stroke-linecap="round"/>';
+      el.innerHTML='<div class="ps-chartwrap"><div class="ps-yaxis">'+cfg.yl.map(function(l){return '<span>'+l+'</span>';}).join('')+'</div>'+
+        '<div class="ps-plot"><svg viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+grid+area+prev+cur+'</svg></div></div>'+
+        '<div class="ps-xaxis">'+PS_X.map(function(l){return '<span>'+l+'</span>';}).join('')+'</div>';
+      document.getElementById('psValue').textContent=cfg.value;
+      var up=cfg.chg>=0, chgEl=document.getElementById('psChg');
+      if(chgEl){ chgEl.className='chg '+(up?'chg-up':'chg-dn');
+        chgEl.innerHTML='<svg class="ic s12"><use href="#i-'+(up?'trend-up':'trend-down')+'"/></svg>'+(up?'+':'')+cfg.chg+'%'; }
+    }
+    var psSeg=document.getElementById('psMetricSeg');
+    if(psSeg){ psSeg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click',function(){
+      psSeg.querySelectorAll('button').forEach(function(x){x.classList.remove('active');}); b.classList.add('active');
+      psMetric=b.getAttribute('data-metric'); renderPS();
+    }); }); }
+    renderPS();
   })();
 </script>
 </body>

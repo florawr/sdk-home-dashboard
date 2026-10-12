@@ -155,6 +155,16 @@
   .controls-right{margin-left:auto;display:flex;align-items:flex-end;gap:12px;}
   .iconbtn-o{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;background:var(--surface);border:1px solid var(--brand-80);border-radius:var(--radius-md);color:var(--brand-80);}
   .iconbtn-o:hover{background:var(--brand-20);}
+  .app-plat{display:inline-flex;align-items:center;color:var(--text-primary);margin-left:6px;}
+  .app-plat-img{height:13px;width:auto;display:block;}
+  .ms{position:relative;}
+  .ms-trigger{min-width:170px;}
+  .ms-panel{position:absolute;top:100%;left:0;margin-top:4px;width:230px;max-height:300px;overflow:auto;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-menu);z-index:70;padding:6px;}
+  .ms-panel[hidden]{display:none;}
+  .ms-opt{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--radius-sm);font-size:13px;color:var(--text-primary);cursor:pointer;}
+  .ms-opt:hover{background:var(--gray-30);}
+  .ms-opt input{width:16px;height:16px;accent-color:var(--brand-80);cursor:pointer;margin:0;flex:none;}
+  .ms-divider{height:1px;background:var(--gray-40);margin:6px 4px;}
 
   /* Section title */
   .sec{margin-bottom:24px;}
@@ -309,6 +319,35 @@
   .proto-note{margin-top:24px;font-size:11px;line-height:16px;color:var(--text-alt);}
   .proto-note b{color:var(--gray-90);font-weight:600;}
 </style>
+<!-- Maze universal snippet -->
+<script>
+(function (m, a, z, e) {
+  var s, t, u, v;
+  try {
+    t = m.sessionStorage.getItem('maze-us');
+  } catch (err) {}
+
+  if (!t) {
+    t = new Date().getTime();
+    try {
+      m.sessionStorage.setItem('maze-us', t);
+    } catch (err) {}
+  }
+
+  u = document.currentScript || (function () {
+    var w = document.getElementsByTagName('script');
+    return w[w.length - 1];
+  })();
+  v = u && u.nonce;
+
+  s = a.createElement('script');
+  s.src = z + '?apiKey=' + e;
+  s.async = true;
+  if (v) s.setAttribute('nonce', v);
+  a.getElementsByTagName('head')[0].appendChild(s);
+  m.mazeUniversalSnippetApiKey = e;
+})(window, document, 'https://snippet.maze.co/maze-universal-loader.js', '9abd2db5-4a2a-4b53-b220-8f7d677d7114');
+</script>
 </head>
 <body>
 
@@ -339,6 +378,8 @@
   <symbol id="i-close-small" viewBox="0 0 16 16"><path d="M12 4.7L11.3 4L8 7.3L4.7 4L4 4.7L7.3 8L4 11.3L4.7 12L8 8.7L11.3 12L12 11.3L8.7 8L12 4.7Z" fill="currentColor"/></symbol>
   <symbol id="i-copy" viewBox="0 0 16 16"><path d="M14 5V14H5V5H14ZM14 4H5C4.73478 4 4.48043 4.10536 4.29289 4.29289C4.10536 4.48043 4 4.73478 4 5V14C4 14.2652 4.10536 14.5196 4.29289 14.7071C4.48043 14.8946 4.73478 15 5 15H14C14.2652 15 14.5196 14.8946 14.7071 14.7071C14.8946 14.5196 15 14.2652 15 14V5C15 4.73478 14.8946 4.48043 14.7071 4.29289C14.5196 4.10536 14.2652 4 14 4Z" fill="currentColor"/><path d="M2 9H1V2C1 1.73478 1.10536 1.48043 1.29289 1.29289C1.48043 1.10536 1.73478 1 2 1H9V2H2V9Z" fill="currentColor"/></symbol>
   <symbol id="i-complete" viewBox="0 0 16 16"><path d="M8.5 1C7.11553 1 5.76216 1.41054 4.61101 2.17971C3.45987 2.94888 2.56266 4.04213 2.03285 5.32122C1.50303 6.6003 1.36441 8.00776 1.63451 9.36563C1.9046 10.7235 2.57129 11.9708 3.55026 12.9497C4.52922 13.9287 5.7765 14.5954 7.13437 14.8655C8.49224 15.1356 9.8997 14.997 11.1788 14.4672C12.4579 13.9373 13.5511 13.0401 14.3203 11.889C15.0895 10.7378 15.5 9.38447 15.5 8C15.5 6.14348 14.7625 4.36301 13.4497 3.05025C12.137 1.7375 10.3565 1 8.5 1ZM7.5 10.7954L5 8.2954L5.7953 7.5L7.5 9.2046L11.205 5.5L12.0029 6.29295L7.5 10.7954Z" fill="currentColor"/></symbol>
+  <symbol id="i-mobile-ios" viewBox="0 0 16 16"><path fill-rule="evenodd" clip-rule="evenodd" d="M11.4943 2.5H11.4416C11.0471 2.56083 10.6354 2.83417 10.4109 3.14134C10.2014 3.42652 10.0235 3.78113 10.0022 4.26132C9.97614 4.25051 9.9486 4.23932 9.92181 4.22911L9.91936 4.22819C9.73691 4.15975 9.49849 4.07879 9.25189 4.04089C8.64208 3.94843 8.11535 4.15743 7.76066 4.37348C7.03861 4.81071 6.54339 5.67497 6.50045 6.68145L6.5 6.6921V7.07455L6.5013 7.09251C6.59661 8.41433 7.11184 9.45217 7.77286 10.2494C7.98306 10.5024 8.37011 10.9159 8.9207 10.9949L8.95604 11H9.18826L9.2227 10.9952C9.48679 10.9583 9.71273 10.8712 9.87762 10.8077L9.90165 10.7984L9.95127 10.7796C10.1277 10.7136 10.2586 10.6758 10.4238 10.6784C10.5681 10.6809 10.6917 10.7246 10.9002 10.8049L10.9178 10.8117C11.1103 10.886 11.3847 10.992 11.719 10.992C12.153 10.992 12.4825 10.8045 12.7235 10.5893C12.9271 10.4074 13.0894 10.1838 13.2026 10.0278L13.2395 9.97719L13.2403 9.97613C13.5428 9.56098 13.7963 9.10549 13.9744 8.57063L14 8.49373V8L13.713 7.94468C13.2745 7.73827 12.9816 7.42768 12.9382 6.89429C12.9114 6.57216 12.9767 6.34614 13.0772 6.1753C13.1815 5.99799 13.3434 5.8473 13.5565 5.71286L13.9835 5.44334L13.7098 5.01899C13.3528 4.46573 12.7833 4.1332 12.06 4.02475C11.5935 3.95513 11.2013 4.04612 10.8831 4.15108C10.9613 4.07166 11.0311 3.98474 11.0946 3.89712C11.3371 3.56675 11.5366 3.11055 11.4943 2.5ZM10.7934 5.24718C10.828 5.23334 10.8531 5.22334 10.877 5.21468L10.9481 5.18915C11.3256 5.05332 11.5753 4.96351 11.9124 5.01379C12.1794 5.05387 12.3877 5.13218 12.5502 5.23914C12.4256 5.36327 12.3112 5.50518 12.2153 5.6682C12.002 6.03072 11.8991 6.46543 11.9416 6.97672C12.005 7.7543 12.392 8.27758 12.8839 8.61836C12.7606 8.89257 12.6091 9.14424 12.4325 9.38672L12.3986 9.43304C12.2754 9.60157 12.1764 9.73709 12.0573 9.84352C11.9414 9.94704 11.839 9.99201 11.719 9.99201C11.5852 9.99201 11.4679 9.95207 11.2599 9.87185L11.239 9.8638C11.0472 9.78966 10.7739 9.68423 10.4401 9.67856C10.0865 9.67289 9.81535 9.76273 9.60091 9.84295C9.56678 9.85572 9.53494 9.86782 9.50489 9.87924C9.35099 9.93772 9.2438 9.97846 9.11557 10H9.0358C8.89532 9.96747 8.72945 9.83592 8.54224 9.61065C7.9984 8.95467 7.58154 8.11567 7.5 7.03788V6.71393C7.53341 6.00236 7.88092 5.46951 8.27903 5.22864L8.28044 5.22778C8.51799 5.08298 8.80512 4.98473 9.1015 5.02952C9.24302 5.05133 9.40195 5.10219 9.56684 5.16399C9.59337 5.17414 9.62176 5.18611 9.6612 5.20274L9.68029 5.21079C9.72642 5.23022 9.78398 5.25422 9.8453 5.27643C9.96283 5.31899 10.1335 5.37023 10.325 5.36451C10.4686 5.36031 10.5924 5.32212 10.6766 5.29204C10.7194 5.27678 10.7604 5.26036 10.7924 5.2476L10.7934 5.24718Z" fill="currentColor"/><path d="M6.75 13C7.16421 13 7.5 12.6642 7.5 12.25C7.5 11.8358 7.16421 11.5 6.75 11.5C6.33579 11.5 6 11.8358 6 12.25C6 12.6642 6.33579 13 6.75 13Z" fill="currentColor"/><path d="M10 15H3.5C2.94798 14.9994 2.50063 14.552 2.5 14V2C2.50063 1.44798 2.94798 1.00063 3.5 1H10V2H3.5V14H10V12H11V14C10.9994 14.552 10.552 14.9994 10 15Z" fill="currentColor"/></symbol>
+  <symbol id="i-mobile-android" viewBox="0 0 16 16"><path d="M6.75 13C7.16421 13 7.5 12.6642 7.5 12.25C7.5 11.8358 7.16421 11.5 6.75 11.5C6.33579 11.5 6 11.8358 6 12.25C6 12.6642 6.33579 13 6.75 13Z" fill="currentColor"/><path d="M12.4753 7.03098H11.4753V8.03098H12.4753V7.03098Z" fill="currentColor"/><path d="M9.47531 7.03098H8.47531V8.03098H9.47531V7.03098Z" fill="currentColor"/><path fill-rule="evenodd" clip-rule="evenodd" d="M13.5853 6.11538L15.3271 4.3859L14.6226 3.67627L12.7223 5.56306C12.0467 5.22276 11.2833 5.03101 10.4756 5.03101C9.59086 5.03101 8.75925 5.26112 8.03803 5.66453L6.35412 3.70508L5.5957 4.35685L7.21463 6.24068C7.1837 6.26731 7.15309 6.29432 7.12283 6.3217C6.37453 6.9985 5.83106 7.89956 5.59947 8.92033L5.46094 9.53096H15.4904L15.3518 8.92033C15.1202 7.89956 14.5768 6.9985 13.8285 6.3217C13.7497 6.25041 13.6685 6.1816 13.5853 6.11538ZM10.4756 6.03101C9.44337 6.03101 8.50344 6.42134 7.79361 7.06335C7.34848 7.46595 6.99466 7.9667 6.7662 8.53096H14.1851C13.9566 7.9667 13.6028 7.46595 13.1577 7.06335C12.4479 6.42134 11.5079 6.03101 10.4756 6.03101Z" fill="currentColor"/><path d="M10 15H3.5C2.94798 14.9994 2.50063 14.552 2.5 14V2C2.50063 1.44798 2.94798 1.00063 3.5 1H10V2H3.5V14H10V12H11V14C10.9994 14.552 10.552 14.9994 10 15Z" fill="currentColor"/></symbol>
 </svg>
 
 <div class="app">
@@ -508,7 +549,14 @@
           <div class="controls-right">
             <div class="ctrl">
               <span class="ctrl-label">Apps</span>
-              <button class="select"><span>All Apps</span><svg class="ic s16"><use href="#i-chevron-down"/></svg></button>
+              <div class="ms" id="appsFilter">
+                <button class="select ms-trigger" id="appsTrigger" aria-haspopup="true" aria-expanded="false"><span id="appsLabel">All Apps</span><svg class="ic s16"><use href="#i-chevron-down"/></svg></button>
+                <div class="ms-panel" id="appsPanel" hidden>
+                  <label class="ms-opt"><input type="checkbox" id="appsAll" checked><span>Select all</span></label>
+                  <div class="ms-divider"></div>
+                  <div id="appsList"></div>
+                </div>
+              </div>
             </div>
             <button class="iconbtn-o" aria-label="Customize columns"><svg class="ic s16"><use href="#i-columns"/></svg></button>
           </div>
@@ -523,7 +571,7 @@
                 <div class="perf-right"><div class="perf-val">14.51M</div><span class="chg chg-up"><svg class="ic s12"><use href="#i-trend-up"/></svg>+14%</span><div class="perf-period">Last month</div><div class="perf-cmp-val">90,119</div><div class="perf-cmp-period">Previous month</div></div>
               </div>
             </div>
-            <div class="card perf"><div class="perf-title">Revenue</div>
+            <div class="card perf"><div class="perf-title">Net Revenue</div>
               <div class="perf-body">
                 <div class="perf-chart" data-vals="40,72,50,84,62,58,90,70,96,78,104,112" data-y="$25k,$15k,$5k" data-x="2/1,2/2,2/3,2/4,2/5,2/6,2/7"></div>
                 <div class="perf-right"><div class="perf-val">$20,321</div><span class="chg chg-up"><svg class="ic s12"><use href="#i-trend-up"/></svg>+9.75%</span><div class="perf-period">Last 7 days</div><div class="perf-cmp-val">$19,401</div><div class="perf-cmp-period">Jan 20 – Jan 27</div></div>
@@ -576,7 +624,7 @@
               <thead><tr>
                 <th><div class="th-inner">App name <svg class="ic s16"><use href="#i-chevron-sort"/></svg></div></th>
                 <th><div class="th-inner">Trend</div></th>
-                <th class="num"><div class="th-inner">Revenue ($) <svg class="ic s16"><use href="#i-chevron-sort"/></svg></div></th>
+                <th class="num"><div class="th-inner">Net Revenue ($) <svg class="ic s16"><use href="#i-chevron-sort"/></svg></div></th>
                 <th class="num"><div class="th-inner">Paid imps <svg class="ic s16"><use href="#i-chevron-sort"/></svg></div></th>
                 <th class="num"><div class="th-inner">Requests <svg class="ic s16"><use href="#i-chevron-sort"/></svg></div></th>
                 <th class="num"><div class="th-inner">eCPM <svg class="ic s16"><use href="#i-chevron-sort"/></svg></div></th>
@@ -596,7 +644,7 @@
               <div class="card fmt-card">
                 <div class="fmt-head">
                   <div class="seg" id="fmtMetricSeg">
-                    <button class="active" data-metric="revenue">Revenue</button><button data-metric="ecpm">eCPM</button>
+                    <button class="active" data-metric="revenue">Net Revenue</button><button data-metric="ecpm">eCPM</button>
                   </div>
                   <span class="fmt-range" id="fmtRange">Last 7 days</span>
                 </div>
@@ -815,16 +863,16 @@
     }
     function chg(v){var up=v>=0;return '<span class="chg '+(up?'chg-up':'chg-dn')+'"><svg class="ic s12"><use href="#i-'+(up?'trend-up':'trend-down')+'"/></svg>'+(up?'+':'')+v+'%</span>';}
     var apps=[
-      ['Angry Birds 2',472815,3,4210338,9120544,2.11,58.4,72.1],
-      ['Bad Piggies',407524,1,3880112,8540221,2.05,56.9,70.4],
-      ['Puzzle Quest',309505,5,2954870,6720190,1.98,61.2,68.8],
-      ['Weather Today',271298,-3,2612044,6108773,1.86,54.1,66.3],
-      ['Recipe Radar',261298,-2,2501330,5904210,1.79,52.7,65.0],
-      ['Finance Now',188497,-1,1820544,4390255,1.74,50.3,63.7],
-      ['Trail Maps',169291,1,1644027,3980114,1.69,49.8,62.9],
-      ['Kids Learn',169291,1,1640980,3975002,1.68,49.5,62.5],
-      ['Photo Lab',169291,1,1638445,3970880,1.67,49.1,62.1],
-      ['Daily Zen',166912,-5,1602300,3901447,1.63,48.2,60.8]
+      ['Angry Birds 2',472815,3,4210338,9120544,2.11,58.4,72.1,'ios'],
+      ['Bad Piggies',407524,1,3880112,8540221,2.05,56.9,70.4,'android'],
+      ['Puzzle Quest',309505,5,2954870,6720190,1.98,61.2,68.8,'ios'],
+      ['Weather Today',271298,-3,2612044,6108773,1.86,54.1,66.3,'android'],
+      ['Recipe Radar',261298,-2,2501330,5904210,1.79,52.7,65.0,'ios'],
+      ['Finance Now',188497,-1,1820544,4390255,1.74,50.3,63.7,'android'],
+      ['Trail Maps',169291,1,1644027,3980114,1.69,49.8,62.9,'ios'],
+      ['Kids Learn',169291,1,1640980,3975002,1.68,49.5,62.5,'android'],
+      ['Photo Lab',169291,1,1638445,3970880,1.67,49.1,62.1,'ios'],
+      ['Daily Zen',166912,-5,1602300,3901447,1.63,48.2,60.8,'android']
     ];
     // App-Store-style icons (fake): gradient squircle + simple white motif
     var APPICONS=[
@@ -851,18 +899,53 @@
       if(APPIMG[name]) return '<img class="app-ico" src="'+APPIMG[name]+'" alt="'+name+'" width="26" height="26">';
       var c=APPICONS[i%APPICONS.length], gid='ag'+i;
       return '<svg class="app-ico" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="'+gid+'" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="'+c.a+'"/><stop offset="1" stop-color="'+c.b+'"/></linearGradient></defs><rect x="0" y="0" width="40" height="40" rx="9" fill="url(#'+gid+')"/>'+motif(c.m)+'</svg>'; }
-    document.getElementById('topAppsBody').innerHTML=apps.map(function(a,i){
-      return '<tr>'+
-        '<td><div class="app-cell">'+appIcon(i,a[0])+'<a class="applink" href="#">'+a[0]+'</a></div></td>'+
-        '<td>'+spark(a[2]>=0)+'</td>'+
-        '<td class="num"><span class="rev-cell">'+money(a[1])+' '+chg(a[2])+'</span></td>'+
-        '<td class="num">'+a[3].toLocaleString('en-US')+'</td>'+
-        '<td class="num">'+a[4].toLocaleString('en-US')+'</td>'+
-        '<td class="num">$'+a[5].toFixed(2)+'</td>'+
-        '<td class="num">'+a[6].toFixed(1)+'%</td>'+
-        '<td class="num">'+a[7].toFixed(1)+'%</td>'+
-      '</tr>';
-    }).join('');
+    var PLAT_IMG={ ios:'assets/Apple_logo_black.svg' };  // project asset files (add android here once a clean image exists)
+    function platIcon(p){ var t=(p==='ios'?'iOS':'Android');
+      if(PLAT_IMG[p]) return '<span class="app-plat" title="'+t+'"><img class="app-plat-img" src="'+PLAT_IMG[p]+'" alt="'+t+'"></span>';
+      return '<span class="app-plat" title="'+t+'"><svg class="ic" style="width:14px;height:14px"><use href="#i-mobile-'+p+'"/></svg></span>'; }
+    function renderTopApps(sel){
+      document.getElementById('topAppsBody').innerHTML=apps.map(function(a,i){ return {a:a,i:i}; })
+        .filter(function(r){ return !sel || sel.has(r.a[0]); })
+        .map(function(r){ var a=r.a, i=r.i;
+          return '<tr>'+
+            '<td><div class="app-cell">'+appIcon(i,a[0])+'<a class="applink" href="#">'+a[0]+'</a>'+platIcon(a[8])+'</div></td>'+
+            '<td>'+spark(a[2]>=0)+'</td>'+
+            '<td class="num"><span class="rev-cell">'+money(a[1])+' '+chg(a[2])+'</span></td>'+
+            '<td class="num">'+a[3].toLocaleString('en-US')+'</td>'+
+            '<td class="num">'+a[4].toLocaleString('en-US')+'</td>'+
+            '<td class="num">$'+a[5].toFixed(2)+'</td>'+
+            '<td class="num">'+a[6].toFixed(1)+'%</td>'+
+            '<td class="num">'+a[7].toFixed(1)+'%</td>'+
+          '</tr>';
+        }).join('');
+    }
+    renderTopApps(null);
+
+    /* ---- Apps multi-select filter ---- */
+    (function(){
+      var trigger=document.getElementById('appsTrigger'), panel=document.getElementById('appsPanel'),
+          label=document.getElementById('appsLabel'), allBox=document.getElementById('appsAll'),
+          list=document.getElementById('appsList');
+      if(!trigger||!panel) return;
+      var names=apps.map(function(a){return a[0];});
+      list.innerHTML=names.map(function(n){ return '<label class="ms-opt"><input type="checkbox" class="ms-app" value="'+n+'" checked><span>'+n+'</span></label>'; }).join('');
+      var boxes=[].slice.call(list.querySelectorAll('.ms-app'));
+      function selected(){ return boxes.filter(function(b){return b.checked;}).map(function(b){return b.value;}); }
+      function update(){
+        var s=selected();
+        if(s.length===names.length){ label.textContent='All Apps'; allBox.checked=true; allBox.indeterminate=false; }
+        else if(s.length===0){ label.textContent='No apps'; allBox.checked=false; allBox.indeterminate=false; }
+        else if(s.length===1){ label.textContent=s[0]; allBox.indeterminate=true; }
+        else { label.textContent=s.length+' apps selected'; allBox.indeterminate=true; }
+        renderTopApps(s.length===names.length?null:new Set(s));
+      }
+      allBox.addEventListener('change', function(){ boxes.forEach(function(b){ b.checked=allBox.checked; }); update(); });
+      boxes.forEach(function(b){ b.addEventListener('change', update); });
+      trigger.addEventListener('click', function(e){ e.stopPropagation(); var open=panel.hidden; if(typeof closeAll==='function') closeAll(null); panel.hidden=!open; trigger.setAttribute('aria-expanded', String(open)); });
+      panel.addEventListener('click', function(e){ e.stopPropagation(); });
+      document.addEventListener('click', function(){ panel.hidden=true; trigger.setAttribute('aria-expanded','false'); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ panel.hidden=true; trigger.setAttribute('aria-expanded','false'); } });
+    })();
     // Top Demand Sources (DSPs) — cols: DSP, Yest. $, Last 7 Days Avg. $, Change, Total $, % of Total
     function num2(n){ return n.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}); }
     function chgChip(v){ var up=v>=0; return '<span class="chg '+(up?'chg-up':'chg-dn')+'">'+(up?'+':'')+v.toFixed(2)+'%</span>'; }
