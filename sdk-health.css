@@ -1,0 +1,118 @@
+/* OpenWrap SDK version health: widget, status labels, Update OpenWrap SDK modal (shared by dashboard-v2.html and apps.html) */
+/* ---- SDK Version Health widget ---- */
+.sdk-card{padding:24px;display:flex;flex-direction:column;gap:16px;flex:1;}
+/* Call Out Card (Simple) anatomy: label → value → supporting text */
+.sdk-kpi{display:flex;flex-direction:column;gap:4px;}
+.sdk-kpi .l{font-size:13px;font-weight:500;line-height:20px;color:var(--text-primary);}
+.sdk-kpi .n{font-size:24px;line-height:32px;font-variant-numeric:tabular-nums;}
+.sdk-kpi .sub{margin:4px 0 0;font-size:13px;line-height:20px;color:var(--text-alt);}
+.sdk-mini{display:flex;flex-direction:column;}
+.sdk-mini-row{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--gray-40);}
+.sdk-mini-row .st{width:124px;flex:none;display:flex;}  /* fixed status column so versions line up */
+.sdk-mini-row .nm{flex:1;min-width:0;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.sdk-mini-row .v{color:var(--text-alt);font-variant-numeric:tabular-nums;}
+/* Notification banner, State=Info, no action (Helios node 2400:102583) */
+.nbanner{display:flex;align-items:flex-start;gap:16px;padding:10.5px 16px;border:1px solid var(--brand-100);border-radius:var(--radius-md);background:var(--brand-20);
+  font-size:13px;font-weight:500;line-height:20px;color:var(--text-primary);}
+.nbanner .ic{color:var(--brand-100);margin-top:2px;}
+.nbanner b{font-weight:700;}
+.sdk-open{width:100%;justify-content:center;margin-top:auto;}
+
+/* Status labels (Helios: rounded rectangle, icon + text, never color-only) */
+.tag{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-sm);font-size:12px;font-weight:500;line-height:16px;white-space:nowrap;}
+.tag .ic{width:12px;height:12px;color:inherit;}
+.tag-ok{background:var(--green-20);color:var(--green-80);}
+.tag-warn{background:var(--orange-20);color:var(--orange-80);}
+.tag-err{background:var(--red-20);color:var(--red-80);}
+.tag-info{background:var(--brand-20);color:var(--text-secondary);}
+.tag-neu{background:var(--gray-40);color:var(--text-primary);}
+
+/* ---- Update OpenWrap SDK modal ---- */
+.modal-wrap{position:fixed;inset:0;background:rgba(34,33,33,.46);z-index:80;display:flex;align-items:center;justify-content:center;padding:24px;}
+.modal-wrap[hidden]{display:none;}
+.modal{background:var(--surface);border-radius:var(--radius-md);box-shadow:0px 2px 3px rgba(34,33,33,0.3);overflow:hidden;
+  width:880px;max-width:100%;max-height:100%;display:flex;flex-direction:column;padding-top:16px;}
+.m-dismiss{display:flex;justify-content:flex-end;padding-right:18px;flex:none;}
+.m-x{display:inline-flex;background:none;border:none;padding:4px;border-radius:var(--radius-sm);}
+.m-x:hover{background:var(--gray-30);}
+.m-scroll{overflow:auto;padding:0 32px 24px;display:flex;flex-direction:column;gap:20px;}
+.m-title{font-size:20px;line-height:24px;font-weight:500;color:var(--text-alt);}
+.m-sec-title{font-size:18px;font-weight:700;line-height:24px;margin:0 0 8px;color:var(--text-primary);}  /* $heading-h3 */
+.m-footer{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:24px 32px;border-top:1px solid var(--gray-40);background:var(--surface);}
+.m-actions{display:flex;gap:16px;margin-left:auto;}
+.empty-note{margin:0;color:var(--text-alt);}
+/* 1. Recommended version */
+.rec{border:1px solid var(--brand-80);border-radius:var(--radius-lg);padding:12px 16px 16px;display:flex;flex-direction:column;gap:12px;}
+.rec-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.rec-ver{font-size:24px;line-height:32px;font-weight:500;font-variant-numeric:tabular-nums;}
+.rec-sub{margin-left:auto;font-size:11px;line-height:16px;color:var(--text-alt);}
+.rec-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);border-top:1px solid var(--gray-40);padding-top:12px;}
+.rec-box{display:flex;flex-direction:column;padding-right:24px;}
+.rec-box + .rec-box{padding:0 0 0 24px;border-left:1px solid var(--gray-40);}
+.rec-l{font-size:13px;font-weight:500;line-height:20px;}
+.rec-n{display:flex;align-items:center;gap:8px;font-size:24px;line-height:32px;font-variant-numeric:tabular-nums;margin-top:4px;}
+.rec-n .ic{color:var(--text-alt);} .rec-n .to{color:var(--green-80);}
+.rec-cap{display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:13px;line-height:20px;color:var(--text-alt);margin:4px 0 8px;}
+.rec-cap b{font-weight:600;color:var(--text-primary);font-variant-numeric:tabular-nums;} .rec-cap b.to{color:var(--green-80);}
+.rec-cap > .ic{color:var(--text-alt);}
+/* Tooltip (Helios: hover/focus, nonessential info only). Dark body + caret approximated; not pulled from the Figma node. */
+.tip-wrap{position:relative;display:inline-flex;}
+.tip-btn{display:inline-flex;background:none;border:none;padding:0;color:var(--gray-90);cursor:help;border-radius:var(--radius-sm);}
+.tip{position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);width:max-content;max-width:240px;padding:8px 12px;border-radius:var(--radius-sm);
+  background:var(--gray-100);color:#fff;font-size:11px;line-height:16px;font-weight:400;opacity:0;pointer-events:none;transition:opacity .15s;z-index:5;}
+.tip::after{content:"";position:absolute;top:100%;left:50%;margin-left:-5px;border:5px solid transparent;border-top-color:var(--gray-100);}
+.tip-wrap:hover .tip,.tip-btn:focus-visible + .tip{opacity:1;}
+.lnk{display:inline-flex;align-items:center;gap:4px;align-self:flex-start;background:none;border:none;padding:0;font:inherit;font-weight:500;color:var(--brand-80);cursor:pointer;}
+.lnk .ic{color:currentColor;}
+.iss-list{list-style:none;margin:12px 0 0;padding:0;display:flex;flex-direction:column;gap:6px;}
+.iss-list[hidden]{display:none;}  /* display:flex above would otherwise override [hidden] */
+.iss-list li{display:flex;align-items:flex-start;gap:8px;}
+.iss-list .ic{margin-top:2px;} .iss-list .ic.ok{color:var(--green-80);}
+.iss-list .iss-more{padding-left:24px;font-size:11px;line-height:16px;color:var(--text-alt);}
+/* 2. Version comparison */
+.cmp tbody td{height:auto;padding:8px 16px;vertical-align:top;}
+.cmp th:first-child,.cmp td:first-child{width:200px;white-space:nowrap;}
+.cmp th:not(:first-child){width:calc((100% - 200px) / 3);}
+.cmp tbody tr:not(.v-row) td{white-space:nowrap;}
+.cmp td.is-rec{background:var(--brand-10);}
+.cmp th .tag{margin-left:8px;}
+.cmp-l{font-weight:500;} .cmp-s{margin-left:6px;font-size:11px;line-height:16px;font-weight:400;color:var(--text-alt);}
+.chk{display:inline-flex;align-items:center;gap:6px;font-variant-numeric:tabular-nums;}
+.chk .ic.ok{color:var(--green-80);} .chk .ic.warn{color:var(--orange-80);}
+.chk.warn{color:var(--orange-80);font-weight:500;}
+.meter{display:inline-flex;gap:2px;margin-left:8px;vertical-align:middle;} .meter i{width:16px;height:6px;border-radius:2px;background:var(--gray-40);} .meter i.on{background:var(--brand-80);}
+.verdict{display:flex;gap:6px;align-items:flex-start;}
+.verdict .ic{margin-top:2px;flex:none;} .verdict .ic.ok{color:var(--green-80);} .verdict .ic.warn{color:var(--orange-80);}
+.cmp tr.v-row td{white-space:normal;}
+/* 3. Apps */
+.m-tbl{border:1px solid var(--gray-40);border-radius:var(--radius-lg);overflow:auto;}
+.m-tbl table{min-width:640px;}
+.m-tbl tbody td{height:40px;}  /* compact content row */
+.m-tbl td.empty{height:auto;padding:16px;color:var(--text-alt);}
+.m-tbl .app-cell span{white-space:nowrap;}
+.ver-to{display:inline-flex;align-items:center;gap:4px;white-space:nowrap;font-variant-numeric:tabular-nums;}
+.ver-to .ic{color:var(--text-alt);}
+/* Apps already on supported versions: collapsed success banner with stacked app icons (prototype pattern; no Helios avatar-group component yet) */
+.utd{margin-top:12px;border:1px solid var(--green-80);border-radius:var(--radius-md);background:var(--green-20);overflow:hidden;}
+.utd:empty{display:none;}
+.utd-head{display:flex;align-items:center;gap:12px;width:100%;padding:10.5px 16px;background:none;border:none;text-align:left;font:inherit;color:var(--text-primary);cursor:pointer;}
+.utd-txt{flex:1;min-width:0;} .utd-txt b{font-weight:500;} .utd-txt span{display:block;font-size:11px;line-height:16px;color:var(--text-alt);}
+.utd-tog{display:inline-flex;align-items:center;gap:4px;color:var(--brand-80);font-weight:500;white-space:nowrap;}
+.utd-list{background:var(--surface);border-top:1px solid var(--green-80);}
+.utd-row{display:flex;align-items:center;gap:10px;padding:8px 16px;} .utd-row + .utd-row{border-top:1px solid var(--gray-40);}
+.utd-row .nm{flex:1;min-width:0;display:flex;align-items:center;gap:10px;font-weight:500;}
+.utd-row .v{width:64px;color:var(--text-alt);font-variant-numeric:tabular-nums;}
+.ico-stack{display:flex;flex:none;}
+.ico-stack > *{box-shadow:0 0 0 2px var(--green-20);border-radius:6px;}
+.ico-stack > * + *{margin-left:-8px;}
+.ico-more{width:26px;height:26px;display:inline-flex;align-items:center;justify-content:center;background:var(--gray-40);font-size:11px;font-weight:600;color:var(--text-primary);}
+@media (max-width:900px){ .rec-grid{grid-template-columns:1fr;} .rec-box + .rec-box{padding:16px 0 0;border-left:none;border-top:1px solid var(--gray-40);margin-top:16px;} }
+/* Single-app mode (opened from an app on the Apps page) */
+.m-title:focus{outline:none;}
+.m-app{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:-8px;}
+.m-app[hidden]{display:none;}
+.m-app .app-cell b{font-weight:600;}
+.others{display:flex;align-items:center;gap:12px;padding:10.5px 16px;border:1px solid var(--gray-40);border-radius:var(--radius-md);}
+.others[hidden]{display:none;}
+.others .ico-stack > *{box-shadow:0 0 0 2px var(--surface);}
+.others-txt{flex:1;min-width:0;} .others-txt b{font-weight:500;}
