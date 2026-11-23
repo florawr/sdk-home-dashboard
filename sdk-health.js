@@ -10,7 +10,7 @@
   // life: S supported · O limited support (superseded, support ending) · U sunset (past end of support). rate = SDK-attributed crashes per 10k sessions.
   var VERS={
     'v11.1.0':{life:'S',rel:'Oct 20, 2026',pubs:4,sessM:9,sessL:'9M',rate:0.4,p0:false,os:'Android 8.0 or iOS 13'},
-    'v11.0.3':{life:'S',rel:'Sep 8, 2026',pubs:38,sessM:420,sessL:'420M',rate:0.6,p0:false,os:'Android 7.0 or iOS 12',caps:3},
+    'v11.0.3':{life:'S',rel:'Sep 8, 2026',pubs:38,sessM:420,sessL:'420M',rate:0.6,p0:false,os:'Android 7.0 or iOS 12',caps:4},
     'v11.0.1':{life:'S',rel:'Jul 14, 2026',pubs:61,sessM:1100,sessL:'1.1B',rate:0.9,p0:false,os:'Android 7.0 or iOS 12'},
     'v10.6.1':{life:'O',rel:'Apr 2, 2026',until:'Jan 15, 2027',pubs:142,sessM:3400,sessL:'3.4B',rate:2.1,p0:false,os:'Android 6.0 or iOS 12'},
     'v10.4.0':{life:'U',rate:2.8},'v10.2.0':{life:'U',rate:3.9},'v10.0.2':{life:'U',rate:4.6}
@@ -40,7 +40,7 @@
   var NEED=SDK_APPS.filter(function(p){ return VERS[p.v].life!=='S'; });
   function findApp(name){ return SDK_APPS.filter(function(p){ return p.a===name; })[0]||null; }
   function kN(n){ return n>=1000?(Math.round(n/100)/10)+'k':String(n); }
-  var TAG_IC={ok:'circle-checked',warn:'warning-1',err:'error-filled'};
+  var TAG_IC={ok:'complete',warn:'warning-filled',err:'error-filled'};   // filled status icons, all three alike
   function tag(kind,text){ return '<span class="tag tag-'+kind+'">'+(TAG_IC[kind]?'<svg class="ic" aria-hidden="true"><use href="#i-'+TAG_IC[kind]+'"/></svg>':'')+text+'</span>'; }
   var LIFE={S:['ok','Supported'],O:['warn','Limited support'],U:['err','Sunset']};
   function lifeTag(v,short){ var x=VERS[v], L=LIFE[x.life]; return tag(L[0], L[1]+(x.life==='O'&&!short?' until '+x.until:'')); }
@@ -76,9 +76,9 @@
     el.innerHTML=
       '<div class="sdk-kpi"><span class="l">Apps that need an SDK update</span><span class="n">'+NEED.length+' of '+SDK_APPS.length+'</span><p class="sub">'+sub+'</p></div>'+
       '<div class="sdk-mini">'+NEED.map(function(p){ return '<div class="sdk-mini-row">'+sdkIcon(p.a)+'<span class="nm">'+p.a+'</span><span class="v">'+p.v+'</span><span class="st">'+lifeTag(p.v,true)+'</span></div>'; }).join('')+'</div>'+
-      '<div class="nbanner" role="note"><svg class="ic s16" aria-hidden="true"><use href="#i-information-filled"/></svg><span>Update to <b>'+REC+'</b> to fix '+c.fixed.length+' known issues'+(VERS[REC].caps?' and get '+VERS[REC].caps+' new capabilities':'')+'.</span></div>'+
+      '<div class="nbanner" role="note"><svg class="ic s16" aria-hidden="true"><use href="#i-information-filled"/></svg><span>Update to <b>'+REC+'</b> to fix '+c.fixed.length+' known issues'+(VERS[REC].caps?' and get '+VERS[REC].caps+' new features':'')+'.</span></div>'+
       '<button class="btn-primary sdk-open" id="sdkOpen">View Recommended Version</button>';
-    document.getElementById('sdkOpen').addEventListener('click',function(){ openSdk(this); });
+    document.getElementById('sdkOpen').addEventListener('click',function(){ window.SDK.open(this); });  // late-bound so a page can swap the modal (dashboard-v3)
   }
 
   /* ---- Update OpenWrap SDK modal ---- */
@@ -226,5 +226,7 @@
   document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&!sdkWrap.hidden){ e.preventDefault(); closeSdk(); } });
 
   renderSdkWidget();
-  window.SDK={VERS:VERS,REC:REC,NEED:NEED,SDK_APPS:SDK_APPS,findApp:findApp,lifeTag:lifeTag,tag:tag,open:openSdk};
+  window.SDK={VERS:VERS,REC:REC,NEED:NEED,SDK_APPS:SDK_APPS,findApp:findApp,lifeTag:lifeTag,tag:tag,open:openSdk,
+    // for other modal layouts (sdk-health-v3.js)
+    ISS:ISS,REC_RULE:REC_RULE,sdkCalc:sdkCalc,vcmp:vcmp,verified:verified,icon:icon,sdkIcon:sdkIcon,kN:kN};
 })();

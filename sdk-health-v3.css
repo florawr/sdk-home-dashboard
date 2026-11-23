@@ -1,0 +1,119 @@
+/* Update OpenWrap SDK modal, v3: summary, installed-vs-recommended table, tabs. Builds on sdk-health.css; Helios tokens only. */
+.v3-body{display:flex;flex-direction:column;gap:20px;}
+.v3-k{font-size:11px;line-height:16px;font-weight:600;color:var(--text-alt);}
+.v3-v{display:flex;align-items:center;gap:8px;font-size:20px;line-height:24px;font-weight:500;font-variant-numeric:tabular-nums;}
+.v3-s{font-size:11px;line-height:16px;color:var(--text-alt);}
+
+/* Recommended version card (same anatomy as the v2 card): three reasons divided by hairlines, no inner boxes */
+.v3-rec{gap:12px;}
+.v3-whys{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-top:1px solid var(--gray-40);padding-top:12px;}
+.v3-why{display:flex;flex-direction:column;min-width:0;padding:0 24px;}
+.v3-why:first-child{padding-left:0;}
+.v3-why + .v3-why{border-left:1px solid var(--gray-40);}
+.v3-why .rec-cap{margin-bottom:0;}
+.v3-flist{margin:4px 0 0;padding-left:18px;display:flex;flex-direction:column;gap:4px;color:var(--text-primary);}
+.v3-why .rec-l{display:flex;align-items:center;gap:6px;}
+.v3-per{font-size:13px;line-height:20px;color:var(--text-alt);margin-left:2px;}
+.v3-why .rec-n{align-items:baseline;gap:2px;}
+.v3-why .tip-wrap{display:inline-flex;}
+.v3-why .tip-btn{display:inline-flex;align-items:center;}
+.v3-cmp .m-sec-title{margin:0;}
+
+/* Installed vs. recommended, styled like the v2 comparison: light one-line header, equal columns, regular-weight values,
+   44px rows, the recommended column marked only by a tint */
+.v3-cmp{display:flex;flex-direction:column;gap:8px;}
+.v3-ba{table-layout:fixed;}
+.v3-ba th:first-child,.v3-ba td:first-child{width:200px;}
+.v3-ba thead th{white-space:normal;}
+.v3-ba thead th .cmp-s{margin-left:6px;}
+.v3-ba tbody td{height:44px;padding:8px 16px;white-space:nowrap;}
+.v3-ba tbody td:first-child{white-space:normal;}
+.v3-ba tbody td.is-rec{background:var(--brand-10);}
+.v3-recval{display:inline-flex;align-items:center;gap:8px;}
+.v3-val{display:inline-block;min-width:44px;font-variant-numeric:tabular-nums;}   /* fixed slot so chips line up */
+.v3-st{display:inline-flex;align-items:center;gap:6px;}
+.v3-st + .v3-st{margin-left:16px;}
+.v3-st.ok .ic{color:var(--green-80);} .v3-st.warn .ic{color:var(--orange-80);} .v3-st.err .ic{color:var(--red-80);}
+/* Change chip (Helios Change Indicator styling, sign instead of arrow): green = better, red = worse */
+.v3-chip{display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:var(--radius-sm);font-size:10px;font-weight:600;line-height:16px;}
+.v3-chip.is-good{background:var(--green-20);color:var(--green-80);}
+.v3-chip.is-bad{background:var(--red-20);color:var(--red-80);}
+/* Tooltips beside a row label */
+.v3-subline{display:inline-flex;align-items:center;gap:4px;margin-left:6px;vertical-align:baseline;}
+.v3-subline .cmp-s{margin-left:0;}
+.v3-ba .tip-wrap{display:inline-flex;}
+.v3-ba .tip-btn{display:inline-flex;align-items:center;}
+.v3-ba .tip-wrap .ic{width:14px;height:14px;}
+.v3-ba .tip{white-space:normal;font-weight:400;}
+
+.v3-more{margin-top:-2px;align-self:center;}
+
+/* Tabs (Helios Tab: 13px, active brand text + 2px underline, hairline under the row), with a count badge */
+.v3-tabs{display:flex;gap:24px;border-bottom:1px solid var(--gray-40);margin-top:4px;}
+.v3-tabs button{display:inline-flex;align-items:center;gap:6px;background:none;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;
+  padding:8px 0;font:inherit;color:var(--text-primary);cursor:pointer;}
+.v3-tabs button[aria-selected="true"]{color:var(--brand-80);border-bottom-color:var(--brand-80);font-weight:500;}
+.v3-tabs button:hover{color:var(--brand-80);}
+.v3-cnt{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:16px;padding:0 4px;border-radius:var(--radius-sm);
+  background:var(--gray-40);color:var(--text-primary);font-size:11px;line-height:16px;font-weight:600;font-variant-numeric:tabular-nums;}
+.v3-tabs button[aria-selected="true"] .v3-cnt{background:var(--brand-20);color:var(--text-secondary);}
+.v3-panel{min-height:200px;margin-top:-4px;}
+.v3-sh{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap;}
+.v3-sh > :last-child:not(:first-child){margin-left:auto;}
+.v3-lead{margin:0;color:var(--text-alt);}
+
+/* What's New */
+.v3-feats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:32px;}
+.v3-feats li{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--gray-40);}
+.v3-fic{width:32px;height:32px;border-radius:50%;background:var(--brand-20);color:var(--brand-100);display:flex;align-items:center;justify-content:center;flex:none;}
+.v3-ft{flex:1;min-width:0;}
+.v3-fn{display:flex;align-items:center;gap:8px;font-weight:600;}
+.v3-ft p{margin:2px 0 0;}
+.v3-fit{margin-top:4px;font-size:11px;line-height:16px;color:var(--text-alt);}
+
+/* Release Notes timeline (neutral, like the version gap track) */
+.v3-tl{list-style:none;margin:0;padding:0;}
+.v3-tl > li{position:relative;padding:0 0 16px 28px;}
+.v3-tl > li::before{content:"";position:absolute;left:5px;top:16px;bottom:-2px;width:2px;background:var(--gray-40);}
+.v3-tl > li:last-child::before{display:none;}
+.v3-dot{position:absolute;left:0;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--gray-60);background:var(--surface);box-sizing:border-box;}
+.v3-tl > li.is-rec .v3-dot{border-color:var(--brand-80);background:var(--brand-80);}
+.v3-tl > li.is-cur .v3-dot{border-color:var(--gray-90);}
+.v3-tlh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.v3-tlh b{font-weight:600;font-variant-numeric:tabular-nums;}
+.v3-rnd{color:var(--text-alt);}
+.v3-here{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:11px;line-height:16px;color:var(--text-alt);}
+.v3-hereapp{display:inline-flex;align-items:center;gap:4px;color:var(--text-primary);font-weight:500;}
+.v3-hereapp .app-ico{width:16px;height:16px;border-radius:4px;}
+.v3-notes{list-style:none;margin:0;padding:6px 0 0;display:flex;flex-direction:column;gap:6px;}
+.v3-notes li{display:flex;align-items:flex-start;gap:8px;}
+.v3-nt{flex:none;min-width:96px;justify-content:center;}
+
+/* Copy Summary: after copying, shows as a disabled button with a check */
+#v3Copy{white-space:nowrap;}
+#v3Copy:disabled{background:var(--gray-40);border-color:var(--gray-40);color:var(--text-disabled);cursor:default;}   /* Helios secondary, disabled */
+#v3Copy:disabled .ic{color:var(--green-80);}
+.v3-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
+/* Footer: prototype scenario switch (not part of the product UI) */
+.v3-proto{display:flex;align-items:center;gap:8px;font-size:11px;line-height:16px;color:var(--text-alt);}
+.v3-seg{display:inline-flex;border:1px solid var(--border);border-radius:var(--radius-md);overflow:hidden;}
+.v3-seg button{border:none;background:var(--surface);padding:6px 12px;font:inherit;font-size:13px;line-height:20px;color:var(--text-alt);cursor:pointer;}
+.v3-seg button + button{border-left:1px solid var(--border);}
+.v3-seg button[aria-pressed="true"]{background:var(--brand-20);color:var(--text-secondary);font-weight:600;}
+
+/* Narrower windows: the table wraps inside the modal instead of scrolling sideways */
+@media (max-width:960px){
+  .m-tbl table.v3-ba{min-width:0;}
+  .v3-ba th:first-child,.v3-ba td:first-child{width:30%;}
+  .v3-ba tbody td{white-space:normal;}
+  .v3-ba .v3-subline,.v3-ba thead th .cmp-s{display:flex;margin:2px 0 0;}
+  .v3-st + .v3-st{margin-left:0;}
+  .v3-ba td .v3-st{display:flex;margin:2px 0;}
+  .v3-recval{flex-wrap:wrap;gap:4px 8px;}
+}
+@media (max-width:900px){
+  .v3-whys{grid-template-columns:1fr;}
+  .v3-why{padding:12px 0 0;}
+  .v3-why + .v3-why{border-left:none;border-top:1px solid var(--gray-40);margin-top:12px;}
+  .v3-feats{grid-template-columns:1fr;}
+}
